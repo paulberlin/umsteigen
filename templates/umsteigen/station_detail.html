@@ -5,23 +5,6 @@
 {% block metadescription %}In welchen Waggon muss ich bei der Berliner BVG einsteigen um bei {{ station.name }} am besten umzusteigen?!{% endblock %}
 
 {% block content %}
-<br>
-{% if station.bvg_details %}
-<a class="btn btn-default" href="{{ station.bvg_details }}" target="_blank" role="button">Details zu {{ station.name }} bei der BVG <img src="/static/umsteigen/extlink.png" alt="externer Link" border="0"></a>
-{% endif %}
-{% if station.db_station_name %}
-<a class="btn btn-default" href="https://www.bahnhof.de/{{ station.db_station_name }}/abfahrt" target="_blank" role="button">Aktuelle Abfahrten bei {{ station.name }} bei der DB <img src="/static/umsteigen/extlink.png" alt="externer Link" border="0"></a>
-{% endif %}
-{% if station.schema_pic %}
-<a class="btn btn-default" href="{{ station.schema_pic }}" target="_blank" role="button">Schematische Darstellung* von {{ station.name }} <img src="/static/umsteigen/extlink.png" alt="externer Link" border="0"></a>
-{% endif %}
-{% if station.bvg_pic %}
-<!--
-&nbsp;
-<a class="btn btn-default" href="{{ station.bvg_pic }}" target="_blank" role="button">{{ station.name }} Plan <img src="/static/umsteigen/extlink.png" alt="externer Link" border="0"></a>
--->
-{% endif %}
-
 {% if thanks and thanks != 'adm' %}
 <div class="alert alert-success">
      Danke für Deinen Hinweis!
@@ -74,7 +57,7 @@ am besten umzusteigen?!
 	{% endfor %}
 	<br>
         {% include change.waggon_template with directions=change.direction_names %}
-	{% if thanks == 'adm' %}
+	{% if authenticated %}
 		<br><a target="_blank" href="https://umsteigen-in-berlin.de/admin/UmsteigenApp/change/{{ change.id }}/change/"><span class="badge">Edit Change</span></a>
 	{% endif %}
 	</li>
@@ -106,6 +89,23 @@ Diese Station ist fertiggestellt. Wenn Du einen Fehler gefunden hast, <a href="{
 </p>
 {% endif %}
 
+<br>
+{% if station.bvg_details %}
+<a class="btn btn-default" href="{{ station.bvg_details }}" target="_blank" role="button">Details zu {{ station.name }} bei der BVG <img src="/static/umsteigen/extlink.png" alt="externer Link" border="0"></a>
+{% endif %}
+{% if station.db_station_name %}
+&nbsp;
+<a class="btn btn-default" href="https://www.bahnhof.de/{{ station.db_station_name }}/abfahrt" target="_blank" role="button">Aktuelle Abfahrten bei {{ station.name }} bei der DB <img src="/static/umsteigen/extlink.png" alt="externer Link" border="0"></a>
+{% endif %}
+{% if station.bvg_pdf %}
+&nbsp;
+<a class="btn btn-default" href="{{ station.bvg_pdf }}" target="_blank" role="button">{{ station.name }} Plan von der BVG <img src="/static/umsteigen/extlink.png" alt="externer Link" border="0"></a>
+{% endif %}
+{% if station.schema_pic %}
+&nbsp;
+<a class="btn btn-default" href="{{ station.schema_pic }}" target="_blank" role="button">Schematische Darstellung* von {{ station.name }} <img src="/static/umsteigen/extlink.png" alt="externer Link" border="0"></a>
+{% endif %}
+
 {% if station.schema_pic %}
 <p>* Schematische Darstellung von <a href="http://stations.albertguillaumes.cat/" target="_blank">Albert Guillaumes Marcer <img src="/static/umsteigen/extlink.png" alt="externer Link" border="0"></a></p>
 {% endif %}
@@ -118,7 +118,7 @@ Diese Station ist fertiggestellt. Wenn Du einen Fehler gefunden hast, <a href="{
 ist kein Umsteigen möglich.</p>
 {% endif %}
 
-{% if thanks == 'adm' %}
+{% if authenticated %}
 	<p><a target="_blank" href="https://umsteigen-in-berlin.de/admin/UmsteigenApp/station/{{ station.id }}/change/"><span class="badge">Edit Station</span></a></p>
 {% endif %}
 {% endblock content %}

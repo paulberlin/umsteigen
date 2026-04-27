@@ -3,6 +3,7 @@ from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import get_list_or_404
 from django.core.mail import send_mail
+from django.contrib import messages
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -90,17 +91,17 @@ def station_list(request):
     context = { 'station_list': station_list }
     return render(request, 'umsteigen/station_list.html', context)
 
-def station_detail(request, id, thanks=False):
+def station_detail(request, id):
     station = get_object_or_404(Station, pk=id)
     change_list = Change.objects.filter(at__exact=id)
     thanks_list = Change.objects.filter(at__exact=id).exclude(name='').exclude(name__isnull=True).values('name').distinct().order_by('name')
     station_list = Station.objects.filter(change_station=True)
-    context = { 'station': station, 'change_list': change_list, 'thanks': thanks, 'thanks_list': thanks_list, 'station_list': station_list }
+    context = { 'station': station, 'change_list': change_list, 'thanks_list': thanks_list, 'station_list': station_list, "authenticated": request.user.is_authenticated }
     return render(request, 'umsteigen/station_detail.html', context)
 
-def station_detail_name(request, urlname, thanks=False):
+def station_detail_name(request, urlname):
     station = get_object_or_404(Station, url_name=urlname)
-    return station_detail(request, station.station_id, thanks)
+    return station_detail(request, station.station_id)
 
 def station_add_change(request, id):
     #print("add_change:" + str(id))
@@ -138,7 +139,8 @@ def station_add_change(request, id):
             #    ['paul.fuehring@gmx.net'],
             #    fail_silently=False,
             #)
-            return redirect('station_detail', id, True)
+            messages.success(request, 'Danke für Deinen Hinweis!')
+            return redirect('station_detail_name', station.url_name)
 
         # if a GET (or any other method) we'll create a blank form
         else:

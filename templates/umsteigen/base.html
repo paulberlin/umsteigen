@@ -90,6 +90,15 @@
 {% endif %}
 
 <p>
+{% if messages %}
+{% for message in messages %}
+  {% if message.tags == "warning" %}<div class="alert alert-warning" role="alert">{% endif %}
+  {% if message.tags == "success" %}<div class="alert alert-success" role="alert">{% endif %}
+  {{ message|safe }}
+  </div>
+{% endfor %}
+{% endif %}
+
 {% block content %} no content available {% endblock content %}
 </p>
 
@@ -104,7 +113,7 @@
 
 <footer class="footer">
   <div class="container">
-      Copyright &copy; 2017-2025 <a href="{% url 'contact' %}">Paul F&uuml;hring</a> 
+      Copyright &copy; 2017-2026 <a href="{% url 'contact' %}">Paul F&uuml;hring</a> 
   </div>
 </footer>
 

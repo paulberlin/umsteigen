@@ -65,6 +65,8 @@ class Station(models.Model):
     lines = models.ManyToManyField('Line')
     bvg_details = models.CharField(max_length=2000, null=True, blank=True)
     bvg_pic = models.CharField(max_length=2000, null=True, blank=True)
+    bvg_pdf = models.CharField(max_length=2000, null=True, blank=True)
+    bvg_levelguide = models.CharField(max_length=2000, null=True, blank=True)
     schema_pic = models.CharField(max_length=2000, null=True, blank=True)
     complete = models.BooleanField(default=False)
     change_station = models.BooleanField(default=False)

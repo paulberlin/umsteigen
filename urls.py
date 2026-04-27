@@ -15,7 +15,7 @@ urlpatterns = [
     path('station/<int:id>/', views.station_detail, name='station_detail'),
     path('station/<slug:urlname>/', views.station_detail_name, name='station_detail_name'),
     #path('station/<slug:urlname>/<slug:thanks>', views.station_detail_name, name='station_detail_name'),
-    path('station/<int:id>/<slug:thanks>/', views.station_detail, name='station_detail'),
+    path('station/<int:id>', views.station_detail, name='station_detail'),
     path('station/<int:id>/add_change', views.station_add_change, name='station_add_change'),
     path('station/', views.station_list, name='station_list'),
 ]
